@@ -26,13 +26,22 @@ class Repo:
         return f"{self.owner}/{self.name}"
 
 
-# --- The four product repos. Confirm the owner + exact repo names. -----------
+# --- The product repos. Confirm the owner + exact repo names. ----------------
 SABEVALOR = Repo(owner="Nagoyashi", name="sabevalor")
 SPREADSHEETMILLIONAIRE = Repo(owner="Nagoyashi", name="spreadsheet-millionaire")
 CUTECUMBER = Repo(owner="Nagoyashi", name="cutecumber")
 PANDAVO = Repo(owner="Nagoyashi", name="pandavo")  # new one — fix the slug if different
+ROBPERSONALWEBSITE = Repo(owner="Nagoyashi", name="robpersonalwebsite")
+VOUND = Repo(owner="Nagoyashi", name="vound")
 
-ALL_REPOS: list[Repo] = [SABEVALOR, SPREADSHEETMILLIONAIRE, CUTECUMBER, PANDAVO]
+ALL_REPOS: list[Repo] = [
+    SABEVALOR,
+    SPREADSHEETMILLIONAIRE,
+    CUTECUMBER,
+    PANDAVO,
+    ROBPERSONALWEBSITE,
+    VOUND,
+]
 
 
 # --- Wire each Slack channel to its repo. Replace the placeholder IDs. -------
@@ -41,6 +50,8 @@ CHANNEL_REPOS: dict[str, Repo] = {
     "C0BCTHR4GNL": SPREADSHEETMILLIONAIRE,  # #spreadsheetmillionaire
     "C0BCTJ07XK2": CUTECUMBER,          # #cutecumber
     "C0BBHR26CET": PANDAVO,             # #pandavo
+    "C0BBX3TDWP7": ROBPERSONALWEBSITE,  # #personalwebsite
+    "C0BBYDE37V4": VOUND,               # #csmtooling
 }
 
 # Read-only cross-project rollup channel (e.g. #portfolio).

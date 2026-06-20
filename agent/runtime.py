@@ -8,7 +8,7 @@ agent/ or gh/ changes.
 
 from __future__ import annotations
 
-from agent.agents import portfolio_agent, project_agent
+from agent.agents import get_model, portfolio_agent, project_agent
 from agent.deps import AgentDeps
 from config import resolve
 from gh import build_client
@@ -56,7 +56,9 @@ def run_agent(
 
     if mode == "portfolio":
         deps = AgentDeps(mode="portfolio", actor=actor, channel=channel_admin)
-        return portfolio_agent.run_sync(text, deps=deps, message_history=history)
+        return portfolio_agent.run_sync(
+            text, model=get_model(), deps=deps, message_history=history
+        )
 
     # mode == "project"
     deps = AgentDeps(
@@ -66,4 +68,6 @@ def run_agent(
         github=build_client(repo),
         channel=channel_admin,
     )
-    return project_agent.run_sync(text, deps=deps, message_history=history)
+    return project_agent.run_sync(
+        text, model=get_model(), deps=deps, message_history=history
+    )
