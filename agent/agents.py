@@ -49,7 +49,6 @@ def get_model() -> str:
 
 
 project_agent = Agent(
-    get_model(),
     deps_type=AgentDeps,
     system_prompt=PROJECT_SYSTEM_PROMPT,
     tools=PROJECT_TOOLS + CHANNEL_TOOLS,
@@ -65,7 +64,6 @@ def _which_product(ctx: RunContext[AgentDeps]) -> str:
 
 
 portfolio_agent = Agent(
-    get_model(),
     deps_type=AgentDeps,
     system_prompt=PORTFOLIO_SYSTEM_PROMPT,
     tools=PORTFOLIO_TOOLS + CHANNEL_TOOLS,
