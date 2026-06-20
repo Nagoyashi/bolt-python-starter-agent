@@ -2,11 +2,15 @@
 
 - project_agent  has the read tools AND the two proposal-write tools, and only
   ever sees one repo (via deps).
-- portfolio_agent has only the read-only rollup tool. It literally cannot write
-  anything, because no write tool is registered on it.
+- portfolio_agent has only the read-only rollup tool — no GitHub write tool is
+  registered on it, so it cannot create or change anything in any repo.
+
+Both also get CHANNEL_TOOLS (manage the current Slack channel's topic/description
+and pins). That is a Slack-only capability bound to the current channel; it does
+not touch GitHub, so the "portfolio can't write to repos" guarantee stands.
 
 The listener picks which one to run based on the channel. There is no path by
-which a portfolio conversation gains write power, or a project conversation
+which a portfolio conversation gains repo-write power, or a project conversation
 reaches another repo.
 """
 
@@ -18,7 +22,7 @@ from pydantic_ai import Agent, RunContext
 
 from agent.deps import AgentDeps
 from agent.prompts import PORTFOLIO_SYSTEM_PROMPT, PROJECT_SYSTEM_PROMPT
-from agent.tools import PORTFOLIO_TOOLS, PROJECT_TOOLS
+from agent.tools import CHANNEL_TOOLS, PORTFOLIO_TOOLS, PROJECT_TOOLS
 
 _cached_model: str | None = None
 
@@ -48,7 +52,7 @@ project_agent = Agent(
     get_model(),
     deps_type=AgentDeps,
     system_prompt=PROJECT_SYSTEM_PROMPT,
-    tools=PROJECT_TOOLS,
+    tools=PROJECT_TOOLS + CHANNEL_TOOLS,
 )
 
 
@@ -64,5 +68,5 @@ portfolio_agent = Agent(
     get_model(),
     deps_type=AgentDeps,
     system_prompt=PORTFOLIO_SYSTEM_PROMPT,
-    tools=PORTFOLIO_TOOLS,
+    tools=PORTFOLIO_TOOLS + CHANNEL_TOOLS,
 )

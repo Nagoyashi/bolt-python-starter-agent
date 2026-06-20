@@ -4,6 +4,7 @@ from slack_bolt import BoltContext, Say, SayStream, SetStatus
 from slack_sdk import WebClient
 
 from agent import run_agent
+from listeners.channel_admin import SlackChannelAdmin
 from listeners.views.feedback_builder import build_feedback_blocks
 from thread_context import conversation_store
 
@@ -54,6 +55,7 @@ def handle_message(
             history=history,
             is_dm=is_dm,
             actor=context.user_id,
+            channel_admin=SlackChannelAdmin(client, channel_id, event["ts"]),
         )
 
         streamer = say_stream()

@@ -41,15 +41,21 @@ def run_agent(
     *,
     is_dm: bool = False,
     actor: str = "",
+    channel_admin=None,
 ):
-    """Resolve the channel, run the appropriate agent, return its result."""
+    """Resolve the channel, run the appropriate agent, return its result.
+
+    channel_admin is an optional ChannelAdmin bound to this channel (built by the
+    listener) so the agent can manage the channel it's in. It is injected for
+    wired channels only — never for unknown channels.
+    """
     mode, repo = resolve(channel_id, is_dm=is_dm)
 
     if mode == "unknown":
         return _StaticResult(_UNKNOWN_REPLY, history)
 
     if mode == "portfolio":
-        deps = AgentDeps(mode="portfolio", actor=actor)
+        deps = AgentDeps(mode="portfolio", actor=actor, channel=channel_admin)
         return portfolio_agent.run_sync(text, deps=deps, message_history=history)
 
     # mode == "project"
@@ -58,5 +64,6 @@ def run_agent(
         actor=actor,
         repo=repo,
         github=build_client(repo),
+        channel=channel_admin,
     )
     return project_agent.run_sync(text, deps=deps, message_history=history)
