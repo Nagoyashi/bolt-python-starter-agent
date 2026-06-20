@@ -136,7 +136,9 @@ class GitHubClient:
 
     def recent_releases(self, limit: int = 5) -> list[dict]:
         out: list[dict] = []
-        for r in self._repo.get_releases()[:limit]:
+        # Iterate + break rather than slicing the PaginatedList: PyGithub raises
+        # IndexError when slicing a repo that has zero releases.
+        for r in self._repo.get_releases():
             out.append(
                 {
                     "tag": r.tag_name,
@@ -145,6 +147,8 @@ class GitHubClient:
                     "url": r.html_url,
                 }
             )
+            if len(out) >= limit:
+                break
         return out
 
     # --------------------------------------------------------------- writes --
