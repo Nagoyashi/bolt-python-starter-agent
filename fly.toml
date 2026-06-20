@@ -1,0 +1,15 @@
+# Socket Mode app: connects OUT to Slack over a websocket, receives nothing
+# inbound — so there is no [http_service] and nothing is exposed publicly.
+app = "cofounder-agent"
+primary_region = "ams"   # pick a region near you
+
+[build]
+
+[processes]
+  app = "python app.py"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  memory = "512mb"
+  # No services => Fly keeps this machine running (no idle auto-stop), which is
+  # what you want for a persistent Socket Mode connection.

@@ -1,15 +1,52 @@
 # Build
-.bolt-python-build/
+build/
+dist/
+docs/_sources/
+docs/.doctrees
 
 # Claude Code
 .claude/*.local.json
 
-# Git
-.worktrees/
+# Coverage
+.coverage
+cov_*
+coverage.xml
+
+# Editors
+.idea/
+
+# Environment
+.env*
+!.env.sample
+env*/
+venv/
+.venv*
+
+# Logs
+logs/
 
 # macOS
 .DS_Store
 
-# Slack
-*/.slack/apps.json
-*/.slack/apps.dev.json
+# OAuth
+data/
+
+# Python
+__pycache__/
+*.db
+*.egg
+*.egg-info/
+*.eggs/
+*.py[cod]
+*.so
+.mypy_cache/
+.pytype/
+.python-version
+*~
+pip
+
+# Testing
+.cache
+.pytest_cache/
+.tox
+tmp.txt
